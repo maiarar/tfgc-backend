@@ -100,7 +100,7 @@
       "get": {
         "tags": [
           "candidatas"
-        ],get
+        ],
         "summary": "Retorna todas as candidatas na base",
         "consumes": [
           "application/json"
