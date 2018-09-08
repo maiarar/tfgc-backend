@@ -1,0 +1,185 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Esse Swagger é para o projeto de backend desenvolvido no evento [Tech For Girls chalenge](http://tfgc.com.br). Nele está a definição da API de `autenticação`.",
+    "version": "0.0.1",
+    "title": "API de Autenticação",
+    "termsOfService": "https://github.com/maiarar/tfgc-backend/tree/master/api-autenticacao"
+  },
+  "host": "??????",
+  "basePath": "/v1/autenticacoes",
+  "tags": [
+    {
+      "name": "usuario",
+      "description": "Qualquer tipo de usuário que queira se logar"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "parameters": {
+    "username": {
+      "name": "username",
+      "in": "path",
+      "description": "Username do usuário",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "paths": {
+    "/usuario": {
+      "post": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Salva as informações de autenticação do usuário",
+        "description": "Salva as informações de autenticação do usuário na base",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto Usuario a ser salvo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "Authorization a ser salvo (gerado a partir do app do LinkedIn)",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso"
+          },
+          "412": {
+            "description": "Um dos campos não foi preenchido corretamente"
+          }
+        }
+      }
+    },
+    "/usuario/{username}": {
+      "get": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Retorna um Usuario existente",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "client_id",
+            "description": "Client ID provido na criação do app",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/username"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Uauário foi retornado corretamente",
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          },
+          "401": {
+            "description": "Erro na validação do client_id."
+          },
+          "404": {
+            "description": "Usuario não encontrado."
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Atualiza um Usuario existente",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto Usuario a ser atualizado",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          },
+          {
+            "$ref": "#/parameters/username"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Atualização realizada com sucesso"
+          },
+          "404": {
+            "description": "Usuario não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Usuario": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "username"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "Carlota"
+        },
+        "username": {
+          "type": "string",
+          "example": "ca_123"
+        },
+        "type": {
+          "type": "string",
+          "description": "Tipo de Usuario a ser cadastrado",
+          "enum": [
+            "recrutador",
+            "candidato"
+          ]
+        }
+      },
+      "xml": {
+        "name": "Usuario"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Para mais detalhes da documentação desta e de demais APIs, veja o README.md",
+    "url": "https://github.com/maiarar/tfgc-backend/blob/master/README.md"
+  }
+}
