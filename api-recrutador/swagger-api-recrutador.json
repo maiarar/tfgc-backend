@@ -1,0 +1,346 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Esse Swagger é para o projeto de backend desenvolvido no evento [Tech For Girls chalenge](http://tfgc.com.br). Nele está a definição da API de `recrutadores`.",
+    "version": "0.0.1",
+    "title": "API de Recrutadores",
+    "termsOfService": "https://github.com/maiarar/tfgc-backend/tree/master/api-recrutador"
+  },
+  "host": "??????",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "recrutadores",
+      "description": "Qualquer tipo de recrutador"
+    },
+    {
+      "name": "feedbacks",
+      "description": "Feedbacks (positivos e negativos) que um recrutador oferece para candidatas"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "parameters": {
+    "client_id": {
+      "name": "client_id",
+      "in": "header",
+      "description": "Client ID provido na criação do app",
+      "type": "string",
+      "required": true
+    },
+    "_offset": {
+      "in": "query",
+      "description": "Registro inicial a ser retornado",
+      "name": "_offset",
+      "type": "integer",
+      "required": true
+    },
+    "_limit": {
+      "in": "query",
+      "description": "Quantidade limite de registros retornados",
+      "name": "_limit",
+      "type": "integer",
+      "required": true
+    },
+    "searchString": {
+      "in": "query",
+      "name": "searchString",
+      "description": "String de busca a ser utilizada para filtrar as recrutadores",
+      "required": false,
+      "type": "string"
+    }
+  },
+  "paths": {
+    "/recrutadores": {
+      "post": {
+        "tags": [
+          "recrutadores"
+        ],
+        "summary": "Salva as informações de um recrutador",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto recrutador a ser salvo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recrutador"
+            }
+          },
+          {
+            "$ref": "#/parameters/client_id"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Recrutador criado com sucesso"
+          },
+          "401": {
+            "description": "Erro na validação do client_id"
+          },
+          "412": {
+            "description": "Um dos campos não foi preenchido corretamente"
+          }
+        }
+      }
+    },
+    "/recrutadores/{id}": {
+      "get": {
+        "tags": [
+          "recrutadores"
+        ],
+        "summary": "Retorna um recrutador existente",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/client_id"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id da recrutador",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recrutador foi retornado corretamente",
+            "schema": {
+              "$ref": "#/definitions/RecrutadorRetorno"
+            }
+          },
+          "401": {
+            "description": "Erro na validação do client_id"
+          },
+          "404": {
+            "description": "Recrutador não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "recrutadores"
+        ],
+        "summary": "Atualiza um recrutador existente",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto recrutador a ser atualizado",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recrutador"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id da recrutador a ser atualizado",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Atualização realizada com sucesso"
+          },
+          "401": {
+            "description": "Erro na validação do client_id"
+          },
+          "404": {
+            "description": "Recrutador não encontrado"
+          },
+          "412": {
+            "description": "Um dos campos não foi preenchido corretamente"
+          }
+        }
+      }
+    },
+    "/recrutadores/{id}/feedbacks": {
+      "post": {
+        "tags": [
+          "feedbacks"
+        ],
+        "summary": "Salva as informações de feedback dado por um recrutador",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de feedback a ser salvo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Feedback"
+            }
+          },
+          {
+            "$ref": "#/parameters/client_id"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id da recrutador",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Recrutador criado com sucesso"
+          },
+          "401": {
+            "description": "Erro na validação do client_id"
+          },
+          "404": {
+            "description": "Recrutador não encontrado"
+          },
+          "412": {
+            "description": "Um dos campos não foi preenchido corretamente"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "feedbacks"
+        ],
+        "summary": "Retorna todos os feedbacks dados por um recrutador",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/client_id"
+          },
+          {
+            "$ref": "#/parameters/_offset"
+          },
+          {
+            "$ref": "#/parameters/_limit"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Id da recrutador",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recrutador foi retornado corretamente"
+          },
+          "401": {
+            "description": "Erro na validação do client_id"
+          },
+          "404": {
+            "description": "Recrutador não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Recrutador": {
+      "type": "object",
+      "required": [
+        "nome",
+        "nascimento",
+        "empresa",
+        "link"
+      ],
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "Mariana Almeida"
+        },
+        "nascimento": {
+          "type": "string",
+          "example": "20/03/1988"
+        },
+        "empresa": {
+          "type": "string",
+          "description": "Empresa na qual o recrutador está oferecendo a vaga/oportunidade",
+          "example": "Empresa Daora"
+        },
+        "link": {
+          "type": "string",
+          "description": "Endereço web da empresa do recrutador",
+          "example": "https://empresadaora.io"
+        }
+      }
+    },
+    "RecrutadorRetorno": {
+      "allOf": [
+        {
+          "type": "object"
+        },
+        {
+          "required": [
+            "id"
+          ]
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "123abc"
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/Recrutador"
+        }
+      ]
+    },
+    "Feedback": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "description": "Data na qual o feedback foi dado",
+          "example": "09/10/2018"
+        },
+        "conteudo": {
+          "type": "string",
+          "description": "Conteúdo do feedback",
+          "example": "Oi! Gostei do seu perfil, poderia me mandar um e-mail com seu CV para <recrutador@empresadaora.com>?"
+        },
+        "candidataId": {
+          "type": "string",
+          "description": "Identificador da Candidata que está recebendo o feedback"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Para mais detalhes da documentação desta e de demais APIs, veja o README.md",
+    "url": "https://github.com/maiarar/tfgc-backend/blob/master/README.md"
+  }
+}
