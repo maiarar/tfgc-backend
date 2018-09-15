@@ -1,0 +1,14 @@
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/specification/CandidataSpecification.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/interfaces/json/converter/CandidataConverter.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/interfaces/CandidataController.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/service/CandidataService.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/app/ApiCandidataApplication.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/interfaces/PageableResponse.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/interfaces/Messages.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/interfaces/json/Candidata.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/interfaces/validator/CandidataValidator.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/domain/CandidataDomain.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/specification/filter/CandidataFilter.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/exception/CandidataNotFoundException.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/repository/CandidataRepository.java
+/home/maiara/dev/tfgc-backend/api-candidata/src/main/java/br/com/tfgc/candidata/service/impl/CandidataServiceImpl.java

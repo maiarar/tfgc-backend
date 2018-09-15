@@ -1,0 +1,14 @@
+br/com/tfgc/candidata/domain/CandidataDomain.class
+br/com/tfgc/candidata/interfaces/Messages.class
+br/com/tfgc/candidata/repository/CandidataRepository.class
+br/com/tfgc/candidata/service/impl/CandidataServiceImpl.class
+br/com/tfgc/candidata/exception/CandidataNotFoundException.class
+br/com/tfgc/candidata/interfaces/json/Candidata.class
+br/com/tfgc/candidata/interfaces/PageableResponse.class
+br/com/tfgc/candidata/interfaces/json/converter/CandidataConverter.class
+br/com/tfgc/candidata/specification/CandidataSpecification.class
+br/com/tfgc/candidata/service/CandidataService.class
+br/com/tfgc/candidata/interfaces/CandidataController.class
+br/com/tfgc/candidata/interfaces/validator/CandidataValidator.class
+br/com/tfgc/candidata/app/ApiCandidataApplication.class
+br/com/tfgc/candidata/specification/filter/CandidataFilter.class
