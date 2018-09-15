@@ -4,17 +4,18 @@ import br.com.tfgc.candidata.domain.CandidataDomain;
 import br.com.tfgc.candidata.exception.CandidataNotFoundException;
 import br.com.tfgc.candidata.interfaces.Messages;
 import br.com.tfgc.candidata.interfaces.json.Candidata;
+import br.com.tfgc.candidata.interfaces.json.Nivel;
 import br.com.tfgc.candidata.interfaces.json.converter.CandidataConverter;
 import br.com.tfgc.candidata.repository.CandidataRepository;
 import br.com.tfgc.candidata.service.CandidataService;
 import br.com.tfgc.candidata.specification.CandidataSpecification;
 import br.com.tfgc.candidata.specification.filter.CandidataFilter;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 public class CandidataServiceImpl implements CandidataService{
@@ -50,5 +51,6 @@ public class CandidataServiceImpl implements CandidataService{
     public void updateCandidata(CandidataDomain candidataDomain) {
         this.candidataRepository.save(candidataDomain);
     }
+
 
 }

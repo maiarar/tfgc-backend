@@ -1,0 +1,293 @@
+swagger: '2.0'
+info:
+  description: >-
+    Esse Swagger é para o projeto de backend desenvolvido no evento [Tech For
+    Girls chalenge](http://tfgc.com.br). Nele está a definição da API de
+    `candidatas`.
+  version: 0.0.1
+  title: API de Candidatas
+  termsOfService: 'https://github.com/maiarar/tfgc-backend/tree/master/api-candidata'
+host: '??????'
+basePath: /v1
+tags:
+  - name: candidatas
+    description: Qualquer tipo de candidata
+  - name: tecnologias
+    description: Tecnologias que as candidatas podem lidar
+schemes:
+  - https
+parameters:
+  client_id:
+    name: client_id
+    in: header
+    description: Client ID provido na criação do app
+    type: string
+    required: true
+  _offset:
+    in: query
+    description: Registro inicial a ser retornado
+    name: _offset
+    type: integer
+    required: true
+  _limit:
+    in: query
+    description: Quantidade limite de registros retornados
+    name: _limit
+    type: integer
+    required: true
+  searchString:
+    in: query
+    name: searchString
+    description: String de busca a ser utilizada para filtrar as candidatas
+    required: false
+    type: string
+  id:
+    in: path
+    name: id
+    description: Id da candidata
+    type: string
+    required: true
+paths:
+  /candidatas:
+    post:
+      tags:
+        - candidatas
+      summary: Salva as informações de um candidata
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Objeto candidata a ser salvo
+          required: true
+          schema:
+            $ref: '#/definitions/Candidata'
+        - $ref: '#/parameters/client_id'
+      responses:
+        '201':
+          description: Candidata criada
+        '401':
+          description: Erro na validação do client_id
+        '412':
+          description: Um dos campos não foi preenchido corretamente
+    get:
+      tags:
+        - candidatas
+      summary: Retorna todas as candidatas na base
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/client_id'
+        - $ref: '#/parameters/_offset'
+        - $ref: '#/parameters/_limit'
+        - $ref: '#/parameters/searchString'
+      responses:
+        '200':
+          description: Candidata foi retornada corretamente
+          schema:
+            $ref: '#/definitions/Candidata'
+        '401':
+          description: Erro na validação do client_id
+  '/candidatas/{id}':
+    get:
+      tags:
+        - candidatas
+      summary: Retorna uma candidata existente
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/client_id'
+        - $ref: '#/parameters/id'
+      responses:
+        '200':
+          description: Candidata foi retornado corretamente
+          schema:
+            $ref: '#/definitions/Candidata'
+        '401':
+          description: Erro na validação do client_id
+        '404':
+          description: Candidata não encontrada
+    put:
+      tags:
+        - candidatas
+      summary: Atualiza um candidata existente
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Objeto candidata a ser atualizado
+          required: true
+          schema:
+            $ref: '#/definitions/Candidata'
+        - $ref: '#/parameters/id'
+      responses:
+        '204':
+          description: Atualização realizada com sucesso
+        '401':
+          description: Erro na validação do client_id
+        '404':
+          description: Candidata não encontrada
+        '412':
+          description: Um dos campos não foi preenchido corretamente
+  '/candidatas/{id}/nivel':
+    post:
+      tags:
+        - candidatas
+      summary: Salva as informações do nível da candidata em relação a uma tecnologia
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Objeto contendo o nível da candidata a ser salvo
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Nivel'
+        - $ref: '#/parameters/client_id'
+        - $ref: '#/parameters/id'
+      responses:
+        '201':
+          description: Candidata criada
+        '401':
+          description: Erro na validação do client_id
+        '412':
+          description: Um dos campos não foi preenchido corretamente
+  /tecnologias:
+    get:
+      tags:
+        - tecnologias
+      summary: Retorna todas as tecnologias na base
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/client_id'
+        - $ref: '#/parameters/_offset'
+        - $ref: '#/parameters/_limit'
+        - $ref: '#/parameters/searchString'
+      responses:
+        '200':
+          description: Tecnologia foi retornada corretamente
+          schema:
+            $ref: '#/definitions/Tecnologia'
+        '401':
+          description: Erro na validação do client_id
+  '/tecnologias/{id}':
+    get:
+      tags:
+        - tecnologias
+      summary: Retorna uma tecnologia existente
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/client_id'
+        - $ref: '#/parameters/id'
+      responses:
+        '200':
+          description: Tecnologia foi retornado corretamente
+          schema:
+            $ref: '#/definitions/Tecnologia'
+        '401':
+          description: Erro na validação do client_id
+        '404':
+          description: Candidata não encontrada
+definitions:
+  Candidata:
+    type: object
+    required:
+      - nome
+      - nascimento
+      - atuacao
+      - experiencia
+      - email
+      - cpf
+    properties:
+      nome:
+        type: string
+        example: Carlota Silva
+      nascimento:
+        type: string
+        example: 05/05/1990
+      atuacao:
+        type: string
+        description: >-
+          Atuação que a candidata exerce no momento do cadastro, podendo ser
+          empregatícia ou não
+        example: Estudante
+      experiencia:
+        type: string
+        description: >-
+          Descrição textual da experiência da candidata, citando com quais
+          tecnologias ela lidou
+        example: >-
+          Já desenvolvi em Ruby na universidade, e em NodeJS em projetos
+          pessoais.
+      email:
+        type: string
+        description: E-mail candidata.
+        example: ca.silva@exemplo.com
+      cpf:
+        type: string
+        description: Documento da candidata.
+        example: '98039362040'
+  Nivel:
+    type: object
+    required:
+      - nomeTecnologia
+      - nivelCandidata
+      - insercaoNova
+    properties:
+      idTecnologia:
+        type: string
+        description: >-
+          Identificador da tecnologia (caso a mesma já exista). Se a candidata
+          optou por uma tecnologia que não exista, esse campo não deve ser
+          preenchido
+        example: '1231234'
+      nomeTecnologia:
+        type: string
+        description: Nome da tecnologia
+        example: Linguagem nova
+      nivelCandidata:
+        type: integer
+        description: 'Nível da candidata, em uma escala de 1 a 5'
+        example: 4
+      insercaoNova:
+        type: boolean
+        description: >-
+          Identifica se a tecnologia é nova para a base (a candidata que inseriu
+          ao se cadastrar), ou se é uma tecnologia que já está salva na base
+        example: true
+  Tecnologia:
+    type: object
+    required:
+      - id
+      - nome
+    properties:
+      id:
+        type: string
+        description: Identificador da tecnologia
+        example: '1231234'
+      nome:
+        type: string
+        description: Nome da tecnologia
+        example: Ruby
+externalDocs:
+  description: 'Para mais detalhes da documentação desta e de demais APIs, veja o README.md'
+  url: 'https://github.com/maiarar/tfgc-backend/blob/master/README.md'

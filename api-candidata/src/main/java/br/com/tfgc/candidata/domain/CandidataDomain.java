@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 
 /**
- * Enitdade que representa a tabela de Candidata.
+ * Entidade que representa a tabela de Candidata.
  */
 @Entity
 @Table(name = "candidata")

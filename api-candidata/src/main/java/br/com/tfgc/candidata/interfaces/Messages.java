@@ -12,6 +12,7 @@ public class Messages {
     public static final String OFFSET_WITH_INVALID_PARAMETER = "422.001";
     public static final String LIMIT_WITH_INVALID_PARAMETER = "422.002";
     public static final String SEARCH_STRING_WITH_INVALID_PARAMETER = "422.003";
+    public static final String FIELDS_WITH_INVALID_PARAMETER = "422.004";
 
     //404's
     public static final String CANDIDATA_NOT_FOUND = "404.001";

@@ -2,14 +2,16 @@ package br.com.tfgc.candidata.interfaces;
 
 
 import br.com.tfgc.candidata.domain.CandidataDomain;
+import br.com.tfgc.candidata.domain.Conhecimento;
+import br.com.tfgc.candidata.domain.TecnologiaDomain;
 import br.com.tfgc.candidata.exception.CandidataNotFoundException;
 import br.com.tfgc.candidata.interfaces.json.Candidata;
+import br.com.tfgc.candidata.interfaces.json.Nivel;
 import br.com.tfgc.candidata.interfaces.json.converter.CandidataConverter;
 import br.com.tfgc.candidata.interfaces.validator.CandidataValidator;
 import br.com.tfgc.candidata.service.CandidataService;
 import br.com.tfgc.candidata.specification.filter.CandidataFilter;
 import java.net.URI;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -19,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -110,6 +111,11 @@ public class CandidataController {
             build();
     }
 
+    /**
+     * Retorna uma candidata específica.
+     * @param candidataId id da Candidata.
+     * @return
+     */
     @RequestMapping(path = "/{candidataId}", method = RequestMethod.GET)
     public ResponseEntity<?> getCandidataId(@PathVariable(name = "candidataId") UUID candidataId) {
 
@@ -123,6 +129,11 @@ public class CandidataController {
 
     }
 
+    /**
+     * Atualiza uma candidata específica.
+     * @param candidataId id da Candidata.
+     * @return
+     */
     @RequestMapping(path = "/{candidataId}", method = RequestMethod.PUT)
     ResponseEntity<?> putCandidata(
         @PathVariable("candidataId") UUID candidataId, @Valid @RequestBody Candidata newCandidata) {
@@ -140,6 +151,38 @@ public class CandidataController {
             newCandidataDomain.setId(candidataSaved.getId());
 
             candidataService.updateCandidata(newCandidataDomain);
+
+        } catch (CandidataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e);
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    /**
+     * Salva o nível de uma candidata específica.
+     * @param candidataId id da Candidata.
+     * @return
+     */
+    @RequestMapping(path = "/{candidataId}/nivel", method = RequestMethod.POST)
+    ResponseEntity<?> postNivel(
+        @PathVariable("candidataId") UUID candidataId, @Valid @RequestBody List<Nivel> niveisCandidata) {
+
+        try {
+
+            List<Error> errors = CandidataValidator.validateNivelCandidata(niveisCandidata);
+            if (!CollectionUtils.isEmpty(errors)) {
+                return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(errors);
+            }
+
+            List<TecnologiaDomain> tecnologiaDomainList = CandidataConverter.toTecnologia(niveisCandidata);
+            List<Conhecimento> conhecimentoList = CandidataConverter.toConhecimento(niveisCandidata);
+
+            if(!tecnologiaDomainList.isEmpty()){
+                tecnologiaService.saveTecnologia(tecnologiaDomainList);
+            }
+
+            candidataService.saveConhecimento(candidataId, conhecimentoList);
 
         } catch (CandidataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e);

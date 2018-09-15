@@ -2,12 +2,14 @@ package br.com.tfgc.candidata.interfaces.validator;
 
 import br.com.tfgc.candidata.interfaces.Messages;
 import br.com.tfgc.candidata.interfaces.json.Candidata;
+import br.com.tfgc.candidata.interfaces.json.Nivel;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.RandomUtils;
+import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -69,6 +71,37 @@ public class CandidataValidator {
         if(Objects.isNull(searchString)){
             errorsInParameters.add(new Error(Messages.SEARCH_STRING_WITH_INVALID_PARAMETER));
         }
+        return errorsInParameters;
+    }
+
+    /**
+     * Valida um array de objetos Nível de candidata.
+     * @param niveisCandidata níveis da candidata a serem validados.
+     * @return lista de erros.
+     */
+    public static List<Error> validateNivelCandidata(@Valid List<Nivel> niveisCandidata) {
+        List<Error> errorsInParameters = new ArrayList<>();
+
+        niveisCandidata.forEach(nivel -> {
+            errorsInParameters.addAll(validateNivelCandidata(nivel));
+        });
+
+        return errorsInParameters;
+    }
+
+    /**
+     * Valida o objeto Nível de candidata.
+     * @param nivel Nível de candidata a ser validado.
+     * @return lista de erros.
+     */
+    private static List<Error> validateNivelCandidata(Nivel nivel) {
+        List<Error> errorsInParameters = new ArrayList<>();
+
+        if(StringUtils.isBlank(nivel.getNameTecnologia()) ||
+            (nivel.getLevelCandidata()<1 || nivel.getLevelCandidata()>5)) {
+            errorsInParameters.add(new Error(Messages.FIELDS_WITH_INVALID_PARAMETER));
+        }
+
         return errorsInParameters;
     }
 }
